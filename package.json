@@ -12,8 +12,7 @@
   "dependencies": {
     "apollo-server-micro": "^3.0.2",
     "graphql": "^15.5.1",
-    "micro": "^9.3.4",
-    "ts-tiny-invariant": "^0.0.3"
+    "micro": "^9.3.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",

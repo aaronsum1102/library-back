@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from 'apollo-server-micro';
 import { VercelApiHandler } from '@vercel/node';
+import 'ts-tiny-invariant';
 
 // This data will be returned by our test endpoint
 const products = [
