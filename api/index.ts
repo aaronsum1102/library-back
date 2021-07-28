@@ -2,10 +2,20 @@ import { VercelApiHandler } from '@vercel/node';
 import 'ts-tiny-invariant';
 
 import { typeDefs, resolvers } from '../src/schema';
-import { createGraphqlServer, enrichContext, createGraphqlHandler } from '../src/apollo';
+import {
+  createGraphqlServer,
+  enrichContext,
+  createGraphqlHandler,
+  defineCORSHeaders
+} from '../src/apollo';
+
+const allowedOrigins = ['library-front.vercel.app', 'library-front-dev.vercel.app'];
+
+process.env.IS_LOCAL && allowedOrigins.push('localhost');
 
 const handler: VercelApiHandler = async (request, response) => {
-  response.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  const headers = defineCORSHeaders(request.headers.origin, { origin: allowedOrigins });
+  Object.keys(headers).forEach((key) => response.setHeader(key, headers[key]));
 
   if (request.method === 'OPTIONS') {
     response.end();
