@@ -5,6 +5,6 @@
     "module": "commonjs",
     "sourceMap": true
   },
-  "include": ["api/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
