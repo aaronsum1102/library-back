@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint 'src/**/*.{js,ts}' --quiet --fix",
-    "offline": "vercel dev --listen 5050"
+    "vercel-dev": "vercel dev --listen 5050"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
@@ -28,5 +28,10 @@
     "**/*.{js,mjs,ts,tsx}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "apollo-server-micro": "^3.0.2",
+    "graphql": "^15.5.1",
+    "micro": "^9.3.4"
   }
 }
