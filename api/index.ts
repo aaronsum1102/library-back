@@ -45,6 +45,7 @@ const config = {
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
+let serverStarted = false;
 
 const handler: VercelApiHandler = async (request, response) => {
   response.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -59,11 +60,21 @@ const handler: VercelApiHandler = async (request, response) => {
     return false;
   }
 
-  await server.start();
+  try {
+    !serverStarted && (await server.start());
 
-  server.createHandler({
-    path: '/api/graphql'
-  })(request, response);
+    serverStarted = true;
+
+    const graphqlHandler = server.createHandler({
+      path: '/api'
+    });
+
+    graphqlHandler(request, response);
+  } catch (error) {
+    console.error(error.message);
+    response.statusCode = 400;
+    response.statusMessage = 'Unable to handle the request.';
+  }
 };
 
 export default handler;
