@@ -91,6 +91,6 @@ pids
 
 *.tgz
 
-
-
 .vercel
+
+*.firebase.json
