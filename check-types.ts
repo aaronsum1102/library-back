@@ -43,7 +43,7 @@ const runCommand = (commandData: Command) => {
 
 const commands: Record<string, Command> = {
   server: {
-    command: 'yarn start',
+    command: 'yarn serve',
     name: 'server',
     readyLog: 'Ready!'
   },

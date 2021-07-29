@@ -14,6 +14,15 @@ export type Scalars = {
   Float: number;
 };
 
+export type Mutation = {
+  __typename?: 'Mutation';
+  verifyUser: Scalars['Boolean'];
+};
+
+export type MutationVerifyUserArgs = {
+  email: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   user?: Maybe<User>;
@@ -135,20 +144,34 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
+  Mutation: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Query: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   UserCustomClaims: ResolverTypeWrapper<UserCustomClaims>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
+  Mutation: {};
+  Boolean: Scalars['Boolean'];
   String: Scalars['String'];
+  Query: {};
   User: User;
   UserCustomClaims: UserCustomClaims;
-  Boolean: Scalars['Boolean'];
+};
+
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = {
+  verifyUser?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationVerifyUserArgs, 'email'>
+  >;
 };
 
 export type QueryResolvers<
@@ -184,6 +207,7 @@ export type UserCustomClaimsResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserCustomClaims?: UserCustomClaimsResolvers<ContextType>;
