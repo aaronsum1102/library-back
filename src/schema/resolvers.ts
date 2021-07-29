@@ -1,22 +1,13 @@
 import { Config } from 'apollo-server-micro';
-
-const products = [
-  {
-    id: 1,
-    name: 'Cookie',
-    price: 300
-  },
-  {
-    id: 2,
-    name: 'Brownie',
-    price: 350
-  }
-];
+import { QueryUserArgs } from '../generated/graphql';
+import { Context } from '../apollo';
+import { UserService } from '../service';
 
 const resolvers: Config['resolvers'] = {
   Query: {
-    products: (parent, args, context, info) => {
-      return products;
+    user: async (__, args: QueryUserArgs, context: Context) => {
+      const service = new UserService(context.firebaseApp);
+      return service.getUserByEmail(args.email);
     }
   }
 };

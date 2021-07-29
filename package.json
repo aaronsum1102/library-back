@@ -7,25 +7,34 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint 'src/**/*.{js,ts}' --quiet --fix",
-    "vercel-dev": "vercel dev --listen 5050"
+    "serve": "vercel dev --listen 5050",
+    "check-types": "ts-node -r dotenv/config ./check-types.ts",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "apollo-server-micro": "^3.0.2",
+    "firebase-admin": "^9.11.0",
     "graphql": "^15.5.1",
     "micro": "^9.3.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@graphql-codegen/cli": "1.21.8",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/typescript": "1.23.0",
+    "@graphql-codegen/typescript-resolvers": "1.20.0",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "@vercel/node": "^1.11.1",
+    "chalk": "^4.1.1",
     "eslint": "^7.31.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.1.1",
     "prettier": "^2.3.2",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.5",
     "vercel": "^23.0.1"
   },

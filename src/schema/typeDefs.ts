@@ -1,14 +1,20 @@
 import { gql } from 'apollo-server-micro';
 
 const typeDefs = gql`
-  type Product {
-    id: Int
-    name: String
-    price: Int
+  type Query {
+    user(email: String!): User
   }
 
-  type Query {
-    products: [Product]
+  type User {
+    uid: String!
+    email: String!
+    displayName: String
+    phoneNumber: String
+    customClaims: UserCustomClaims
+  }
+
+  type UserCustomClaims {
+    admin: Boolean
   }
 `;
 

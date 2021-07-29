@@ -1,9 +1,15 @@
 import { ApolloServer, Config } from 'apollo-server-micro';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { getFirebaseApp, FirebaseApp } from './firebase';
 
 let server: ApolloServer | null = null;
-const API_PATH = '/api/';
+const API_PATH = '/api';
+
+export interface Context {
+  headers: VercelRequest['headers'];
+  firebaseApp: FirebaseApp;
+}
 
 export const createGraphqlServer = async ({
   typeDefs,
@@ -14,6 +20,9 @@ export const createGraphqlServer = async ({
   server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: {
+      firebaseApp: getFirebaseApp()
+    },
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
   });
 
@@ -25,6 +34,7 @@ export const createGraphqlServer = async ({
 export const enrichContext = (server: ApolloServer, request: VercelRequest): void => {
   server.requestOptions = {
     context: {
+      ...server.requestOptions,
       headers: request.headers
     }
   };
