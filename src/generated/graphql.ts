@@ -14,13 +14,28 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddUserInput = {
+  email: Scalars['String'];
+  admin: Scalars['Boolean'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   verifyUser: Scalars['Boolean'];
+  addUser: User;
+  updateUserInfo: User;
 };
 
 export type MutationVerifyUserArgs = {
   email: Scalars['String'];
+};
+
+export type MutationAddUserArgs = {
+  input: AddUserInput;
+};
+
+export type MutationUpdateUserInfoArgs = {
+  input: UpdateUserInput;
 };
 
 export type Query = {
@@ -30,6 +45,12 @@ export type Query = {
 
 export type QueryUserArgs = {
   email: Scalars['String'];
+};
+
+export type UpdateUserInput = {
+  uid: Scalars['ID'];
+  displayName: Scalars['String'];
+  phoneNumber: Scalars['String'];
 };
 
 export type User = {
@@ -144,20 +165,26 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Mutation: ResolverTypeWrapper<{}>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AddUserInput: AddUserInput;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  UpdateUserInput: UpdateUserInput;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   User: ResolverTypeWrapper<User>;
   UserCustomClaims: ResolverTypeWrapper<UserCustomClaims>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Mutation: {};
-  Boolean: Scalars['Boolean'];
+  AddUserInput: AddUserInput;
   String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
+  Mutation: {};
   Query: {};
+  UpdateUserInput: UpdateUserInput;
+  ID: Scalars['ID'];
   User: User;
   UserCustomClaims: UserCustomClaims;
 };
@@ -171,6 +198,18 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationVerifyUserArgs, 'email'>
+  >;
+  addUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationAddUserArgs, 'input'>
+  >;
+  updateUserInfo?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserInfoArgs, 'input'>
   >;
 };
 

@@ -7,6 +7,8 @@ const typeDefs = gql`
 
   type Mutation {
     verifyUser(email: String!): Boolean!
+    addUser(input: AddUserInput!): User!
+    updateUserInfo(input: UpdateUserInput!): User!
   }
 
   type User {
@@ -19,6 +21,17 @@ const typeDefs = gql`
 
   type UserCustomClaims {
     admin: Boolean
+  }
+
+  input AddUserInput {
+    email: String!
+    admin: Boolean!
+  }
+
+  input UpdateUserInput {
+    uid: ID!
+    displayName: String!
+    phoneNumber: String!
   }
 `;
 

@@ -1,4 +1,5 @@
 import { auth, app } from 'firebase-admin';
+import { AddUserInput, UpdateUserInput } from '../generated/graphql';
 
 class UserService {
   private auth: auth.Auth;
@@ -19,6 +20,25 @@ class UserService {
 
       throw Error(error);
     }
+  }
+
+  async addUser(data: AddUserInput): Promise<auth.UserRecord> {
+    const user = await this.auth.createUser({
+      email: data.email
+    });
+
+    if (data.admin) {
+      await this.auth.setCustomUserClaims(user.uid, { admin: true });
+    }
+
+    return user;
+  }
+
+  async updateUserInfo(data: UpdateUserInput): Promise<auth.UserRecord> {
+    const { uid, ...properties } = data;
+    const user = await this.auth.updateUser(uid, properties);
+
+    return user;
   }
 }
 

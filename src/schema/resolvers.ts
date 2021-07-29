@@ -3,15 +3,21 @@ import { GraphQLResolveInfo } from 'graphql';
 
 import { Context } from '../apollo';
 import { UserService } from '../service';
-import { QueryUserArgs, MutationVerifyUserArgs, ResolverFn } from '../generated/graphql';
+import {
+  QueryUserArgs,
+  MutationVerifyUserArgs,
+  ResolverFn,
+  MutationAddUserArgs,
+  MutationUpdateUserInfoArgs
+} from '../generated/graphql';
 import { auth } from 'firebase-admin';
 
 const privateResolver = <TResult, TArgs>(
-  parent: any,
+  parent: unknown,
   args: TArgs,
   context: Context,
   info: GraphQLResolveInfo,
-  resolver: ResolverFn<TResult, any, Context, TArgs>
+  resolver: ResolverFn<TResult, unknown, Context, TArgs>
 ): Promise<TResult> | TResult => {
   if (!context.authentication.isAuthenticated) {
     throw new AuthenticationError(context.authentication.message);
@@ -20,7 +26,7 @@ const privateResolver = <TResult, TArgs>(
   return resolver(parent, args, context, info);
 };
 
-const user: ResolverFn<auth.UserRecord, any, Context, QueryUserArgs> = async (
+const user: ResolverFn<auth.UserRecord, unknown, Context, QueryUserArgs> = async (
   __,
   args,
   context
@@ -31,10 +37,33 @@ const user: ResolverFn<auth.UserRecord, any, Context, QueryUserArgs> = async (
   return user;
 };
 
+const addUser: ResolverFn<auth.UserRecord, unknown, Context, MutationAddUserArgs> = async (
+  __,
+  args,
+  context
+) => {
+  const service = new UserService(context.firebaseApp);
+  const user = await service.addUser(args.input);
+
+  return user;
+};
+
+const updateUserInfo: ResolverFn<auth.UserRecord, unknown, Context, MutationUpdateUserInfoArgs> =
+  async (__, args, context) => {
+    const service = new UserService(context.firebaseApp);
+    const user = await service.updateUserInfo(args.input);
+
+    return user;
+  };
+
 const resolvers: Config['resolvers'] = {
   Query: {
-    user: async (parent: any, args: QueryUserArgs, context: Context, info: GraphQLResolveInfo) =>
-      privateResolver(parent, args, context, info, user)
+    user: async (
+      parent: unknown,
+      args: QueryUserArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, user)
   },
   Mutation: {
     verifyUser: async (__, args: MutationVerifyUserArgs, context: Context) => {
@@ -42,7 +71,19 @@ const resolvers: Config['resolvers'] = {
       const user = await service.getUserByEmail(args.email);
 
       return Boolean(user);
-    }
+    },
+    addUser: async (
+      parent: unknown,
+      args: MutationAddUserArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, addUser),
+    updateUserInfo: async (
+      parent: unknown,
+      args: MutationUpdateUserInfoArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, updateUserInfo)
   }
 };
 
