@@ -5,6 +5,10 @@ const typeDefs = gql`
     user(email: String!): User
   }
 
+  type Mutation {
+    verifyUser(email: String!): Boolean!
+  }
+
   type User {
     uid: String!
     email: String!

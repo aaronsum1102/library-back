@@ -9,7 +9,9 @@ class UserService {
 
   async getUserByEmail(email: string): Promise<auth.UserRecord> {
     try {
-      return await this.auth.getUserByEmail(email);
+      const user = await this.auth.getUserByEmail(email);
+      await this.auth.revokeRefreshTokens(user.uid);
+      return user;
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         return;
