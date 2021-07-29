@@ -27,7 +27,7 @@ const handler: VercelApiHandler = async (request, response) => {
     resolvers
   });
 
-  enrichContext(server, request);
+  await enrichContext(server, request);
   createGraphqlHandler(server, request, response);
 };
 
