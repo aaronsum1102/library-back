@@ -2,6 +2,7 @@ import { gql } from 'apollo-server-micro';
 
 const typeDefs = gql`
   type Query {
+    users: [User]!
     user(email: String!): User
   }
 
@@ -16,11 +17,7 @@ const typeDefs = gql`
     email: String!
     displayName: String
     phoneNumber: String
-    customClaims: UserCustomClaims
-  }
-
-  type UserCustomClaims {
-    admin: Boolean
+    admin: Boolean!
   }
 
   input AddUserInput {

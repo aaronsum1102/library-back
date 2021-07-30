@@ -4,20 +4,25 @@ import { GraphQLResolveInfo } from 'graphql';
 import { Context } from '../apollo';
 import { UserService } from '../service';
 import {
+  User,
   QueryUserArgs,
   MutationVerifyUserArgs,
-  ResolverFn,
   MutationAddUserArgs,
   MutationUpdateUserInfoArgs
 } from '../generated/graphql';
-import { auth } from 'firebase-admin';
+
+interface ApiMethod<TResult, TArgs> {
+  (parent: unknown, args: TArgs, context: Context, info: GraphQLResolveInfo):
+    | Promise<TResult>
+    | TResult;
+}
 
 const privateResolver = <TResult, TArgs>(
   parent: unknown,
   args: TArgs,
   context: Context,
   info: GraphQLResolveInfo,
-  resolver: ResolverFn<TResult, unknown, Context, TArgs>
+  resolver: ApiMethod<TResult, TArgs>
 ): Promise<TResult> | TResult => {
   if (!context.authentication.isAuthenticated) {
     throw new AuthenticationError(context.authentication.message);
@@ -26,38 +31,37 @@ const privateResolver = <TResult, TArgs>(
   return resolver(parent, args, context, info);
 };
 
-const user: ResolverFn<auth.UserRecord, unknown, Context, QueryUserArgs> = async (
-  __,
-  args,
-  context
-) => {
+const users: ApiMethod<User[], unknown> = async (parent, args, context) => {
+  const service = new UserService(context.firebaseApp);
+
+  return await service.getAllUser();
+};
+
+const user: ApiMethod<User, QueryUserArgs> = async (__, args, context) => {
   const service = new UserService(context.firebaseApp);
   const user = await service.getUserByEmail(args.email);
 
   return user;
 };
 
-const addUser: ResolverFn<auth.UserRecord, unknown, Context, MutationAddUserArgs> = async (
-  __,
-  args,
-  context
-) => {
+const addUser: ApiMethod<User, MutationAddUserArgs> = async (__, args, context) => {
   const service = new UserService(context.firebaseApp);
   const user = await service.addUser(args.input);
 
   return user;
 };
 
-const updateUserInfo: ResolverFn<auth.UserRecord, unknown, Context, MutationUpdateUserInfoArgs> =
-  async (__, args, context) => {
-    const service = new UserService(context.firebaseApp);
-    const user = await service.updateUserInfo(args.input);
+const updateUserInfo: ApiMethod<User, MutationUpdateUserInfoArgs> = async (__, args, context) => {
+  const service = new UserService(context.firebaseApp);
+  const user = await service.updateUserInfo(args.input);
 
-    return user;
-  };
+  return user;
+};
 
 const resolvers: Config['resolvers'] = {
   Query: {
+    users: async (parent: unknown, args: unknown, context: Context, info: GraphQLResolveInfo) =>
+      privateResolver(parent, args, context, info, users),
     user: async (
       parent: unknown,
       args: QueryUserArgs,

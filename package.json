@@ -22,7 +22,6 @@
     "@commitlint/config-conventional": "^13.1.0",
     "@graphql-codegen/cli": "1.21.8",
     "@graphql-codegen/typescript": "1.23.0",
-    "@graphql-codegen/typescript-resolvers": "1.20.0",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "@vercel/node": "^1.11.1",
