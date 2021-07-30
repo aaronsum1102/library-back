@@ -2,11 +2,14 @@ import { gql } from 'apollo-server-micro';
 
 const typeDefs = gql`
   type Query {
+    users: [User]!
     user(email: String!): User
   }
 
   type Mutation {
     verifyUser(email: String!): Boolean!
+    addUser(input: AddUserInput!): User!
+    updateUserInfo(input: UpdateUserInput!): User!
   }
 
   type User {
@@ -14,11 +17,18 @@ const typeDefs = gql`
     email: String!
     displayName: String
     phoneNumber: String
-    customClaims: UserCustomClaims
+    admin: Boolean!
   }
 
-  type UserCustomClaims {
-    admin: Boolean
+  input AddUserInput {
+    email: String!
+    admin: Boolean!
+  }
+
+  input UpdateUserInput {
+    uid: ID!
+    displayName: String!
+    phoneNumber: String!
   }
 `;
 
