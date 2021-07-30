@@ -859,15 +859,7 @@
     "@graphql-tools/utils" "^7.9.1"
     tslib "~2.2.0"
 
-"@graphql-codegen/introspection@1.18.2":
-  version "1.18.2"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/introspection/-/introspection-1.18.2.tgz#1b4b5e23cc59c2828a073caccf66c556885d5dd6"
-  integrity sha512-1SuhWu6nbOIOSZdQLNmHHVN8VsTavUQUD6OWjUuR3Bjpw9jfykNYXPpGGQxdCa5hmiWvn2JQU+qtgtERzz4+rg==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^1.18.5"
-    tslib "~2.2.0"
-
-"@graphql-codegen/plugin-helpers@^1.18.5", "@graphql-codegen/plugin-helpers@^1.18.7", "@graphql-codegen/plugin-helpers@^1.18.8":
+"@graphql-codegen/plugin-helpers@^1.18.7", "@graphql-codegen/plugin-helpers@^1.18.8":
   version "1.18.8"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-1.18.8.tgz#39aac745b9e22e28c781cc07cf74836896a3a905"
   integrity sha512-mb4I9j9lMGqvGggYuZ0CV+Hme08nar68xkpPbAVotg/ZBmlhZIok/HqW2BcMQi7Rj+Il5HQMeQ1wQ1M7sv/TlQ==
@@ -878,19 +870,7 @@
     lodash "~4.17.0"
     tslib "~2.3.0"
 
-"@graphql-codegen/typescript-resolvers@1.20.0":
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-1.20.0.tgz#0e4dbb2e7b920e4eba1ae2d72d5ee57ae45bb27d"
-  integrity sha512-phJ7BczjUBE2tOxztnCT8TxXY7/PkoCbFcX+KaNU1c3AxfofUXo2iv70cFrOilb22s3gBSpMqv58JM+D07Xx3w==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^1.18.8"
-    "@graphql-codegen/typescript" "^1.23.0"
-    "@graphql-codegen/visitor-plugin-common" "1.22.0"
-    "@graphql-tools/utils" "^7.9.1"
-    auto-bind "~4.0.0"
-    tslib "~2.3.0"
-
-"@graphql-codegen/typescript@1.23.0", "@graphql-codegen/typescript@^1.23.0":
+"@graphql-codegen/typescript@1.23.0":
   version "1.23.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-1.23.0.tgz#48a5372bcbe81a442c71c1bb032c312c6586a59a"
   integrity sha512-ZfFgk5mGfuOy4kEpy+dcuvJMphigMfJ4AkiP1qWmWFufDW3Sg2yayTSNmzeFdcXMrWGgfNW2dKtuuTmbmQhS5g==
@@ -6212,20 +6192,10 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-ws@7.4.5:
-  version "7.4.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.5.tgz#a484dd851e9beb6fdb420027e3885e8ce48986c1"
-  integrity sha512-xzyu3hFvomRfXKH8vOFMU3OguG6oOvhXMo3xsGy3xWExqaM2dxBbVxuD99O7m3ZUFMvvscsZDqxfgMaRr/Nr1g==
-
-ws@8.0.0:
+ws@7.4.5, ws@8.0.0, "ws@>=5.2.3 <6.0.0 || >=6.2.2 <7.0.0 || >=7.4.6", "ws@^5.2.0 || ^6.0.0 || ^7.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.0.0.tgz#550605d13dfc1437c9ec1396975709c6d7ffc57d"
   integrity sha512-6AcSIXpBlS0QvCVKk+3cWnWElLsA6SzC0lkQ43ciEglgXJXiCWK3/CGFEJ+Ybgp006CMibamAsqOlxE9s4AvYA==
-
-"ws@^5.2.0 || ^6.0.0 || ^7.0.0":
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.3.tgz#160835b63c7d97bfab418fc1b8a9fced2ac01a74"
-  integrity sha512-kQ/dHIzuLrS6Je9+uv81ueZomEwH0qVYstcAQ4/Z93K8zeko9gtAbttJWzoC5ukqXY1PpoouV3+VSOqEAFt5wg==
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
