@@ -1,14 +1,21 @@
-import { Config, AuthenticationError } from 'apollo-server-micro';
+import { Config, AuthenticationError, UserInputError } from 'apollo-server-micro';
 import { GraphQLResolveInfo } from 'graphql';
 
 import { Context } from '../apollo';
-import { UserService } from '../service';
+import { UserService, ResourceService } from '../service';
 import {
   User,
   QueryUserArgs,
   MutationVerifyUserArgs,
   MutationAddUserArgs,
-  MutationUpdateUserInfoArgs
+  MutationUpdateUserInfoArgs,
+  Resource,
+  LoanResource,
+  QueryResourcesByUserArgs,
+  MutationAddResourceArgs,
+  MutationBorrowResourceArgs,
+  MutationReturnResourceArgs,
+  MutationRemoveResourceArgs
 } from '../generated/graphql';
 
 interface ApiMethod<TResult, TArgs> {
@@ -44,6 +51,20 @@ const user: ApiMethod<User, QueryUserArgs> = async (__, args, context) => {
   return user;
 };
 
+const resources: ApiMethod<Resource[], unknown> = async () => {
+  const service = ResourceService.getInstance();
+  const resources = await service.getAllResources();
+
+  return resources;
+};
+
+const resourcesByUser: ApiMethod<LoanResource[], QueryResourcesByUserArgs> = async (__, args) => {
+  const service = ResourceService.getInstance();
+  const resources = await service.getResourcesByBorrowerId(args.borrowerId);
+
+  return resources;
+};
+
 const addUser: ApiMethod<User, MutationAddUserArgs> = async (__, args, context) => {
   const service = new UserService(context.firebaseApp);
   const user = await service.addUser(args.input);
@@ -58,6 +79,42 @@ const updateUserInfo: ApiMethod<User, MutationUpdateUserInfoArgs> = async (__, a
   return user;
 };
 
+const addResource: ApiMethod<Resource, MutationAddResourceArgs> = async (__, args) => {
+  const service = ResourceService.getInstance();
+  const resources = await service.addResource(args.input);
+
+  return resources;
+};
+
+const borrowResource: ApiMethod<Resource, MutationBorrowResourceArgs> = async (__, args) => {
+  const service = ResourceService.getInstance();
+  const resource = await service.getResource(args.input.title, args.input.createdDate);
+
+  if (!resource.available) throw new UserInputError('RESOURCE_UNAVAILABLE');
+
+  const resources = await service.updateResourceDetails({
+    ...args.input,
+    dateBorrowed: new Date().toISOString()
+  });
+
+  return resources;
+};
+
+const returnResource: ApiMethod<Resource, MutationReturnResourceArgs> = async (__, args) => {
+  const service = ResourceService.getInstance();
+  const resources = await service.updateResourceDetails(args.input);
+
+  return resources;
+};
+
+const removeResource: ApiMethod<boolean, MutationRemoveResourceArgs> = async (__, args) => {
+  const service = ResourceService.getInstance();
+
+  const result = await service.deleteResource(args.input);
+
+  return result;
+};
+
 const resolvers: Config['resolvers'] = {
   Query: {
     users: async (parent: unknown, args: unknown, context: Context, info: GraphQLResolveInfo) =>
@@ -67,7 +124,15 @@ const resolvers: Config['resolvers'] = {
       args: QueryUserArgs,
       context: Context,
       info: GraphQLResolveInfo
-    ) => privateResolver(parent, args, context, info, user)
+    ) => privateResolver(parent, args, context, info, user),
+    resources: async (parent: unknown, args: unknown, context: Context, info: GraphQLResolveInfo) =>
+      privateResolver(parent, args, context, info, resources),
+    resourcesByUser: async (
+      parent: unknown,
+      args: QueryResourcesByUserArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, resourcesByUser)
   },
   Mutation: {
     verifyUser: async (__, args: MutationVerifyUserArgs, context: Context) => {
@@ -87,7 +152,31 @@ const resolvers: Config['resolvers'] = {
       args: MutationUpdateUserInfoArgs,
       context: Context,
       info: GraphQLResolveInfo
-    ) => privateResolver(parent, args, context, info, updateUserInfo)
+    ) => privateResolver(parent, args, context, info, updateUserInfo),
+    addResource: async (
+      parent: unknown,
+      args: unknown,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, addResource),
+    borrowResource: async (
+      parent: unknown,
+      args: MutationBorrowResourceArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, borrowResource),
+    returnResource: async (
+      parent: unknown,
+      args: MutationReturnResourceArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, returnResource),
+    removeResource: async (
+      parent: unknown,
+      args: MutationRemoveResourceArgs,
+      context: Context,
+      info: GraphQLResolveInfo
+    ) => privateResolver(parent, args, context, info, removeResource)
   }
 };
 
