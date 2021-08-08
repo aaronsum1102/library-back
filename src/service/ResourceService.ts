@@ -31,8 +31,8 @@ interface CreateResourceParams extends Omit<ResourceData, 'createdDate' | 'avail
 const defaultConfig = {
   region: 'ap-southeast-1',
   credentials: {
-    accessKeyId: 'AKIAZDUNVY22ZAPP5PUL',
-    secretAccessKey: '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'
+    accessKeyId: process.env.MY_AWS_SECRET_KEY_ID,
+    secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY
   },
   tableName: 'library-back-dev-resources',
   pk: 'pk',
