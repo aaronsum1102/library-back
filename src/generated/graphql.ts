@@ -54,6 +54,7 @@ export type LoanResource = {
   borrowerId: Scalars['String'];
   borrower: Borrower;
   dateBorrowed: Scalars['String'];
+  dueDate: Scalars['String'];
 };
 
 export type Mutation = {
@@ -125,6 +126,7 @@ export type Resource = {
   borrowerId?: Maybe<Scalars['String']>;
   borrower?: Maybe<Borrower>;
   dateBorrowed?: Maybe<Scalars['String']>;
+  dueDate?: Maybe<Scalars['String']>;
 };
 
 export type ReturnResourceInput = {

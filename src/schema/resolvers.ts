@@ -92,9 +92,14 @@ const borrowResource: ApiMethod<Resource, MutationBorrowResourceArgs> = async (_
 
   if (!resource.available) throw new UserInputError('RESOURCE_UNAVAILABLE');
 
+  const LOAN_INTERVAL = 10;
+  const dateBorrowed = new Date();
+  const dueDate = new Date(dateBorrowed.setDate(dateBorrowed.getDate() + LOAN_INTERVAL));
+
   const resources = await service.updateResourceDetails({
     ...args.input,
-    dateBorrowed: new Date().toISOString()
+    dateBorrowed: dateBorrowed.toISOString(),
+    dueDate: dueDate.toISOString()
   });
 
   return resources;
