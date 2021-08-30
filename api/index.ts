@@ -1,5 +1,4 @@
 import { VercelApiHandler } from '@vercel/node';
-import 'ts-tiny-invariant';
 
 import { typeDefs, resolvers } from '../src/schema';
 import {

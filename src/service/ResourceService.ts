@@ -16,6 +16,7 @@ interface ResourceData {
   borrowerId?: string;
   borrower?: Borrower;
   dateBorrowed?: string;
+  dueDate?: string;
 }
 
 interface Borrower {
@@ -75,7 +76,8 @@ class ResourceService {
     available,
     borrowerId,
     borrower,
-    dateBorrowed
+    dateBorrowed,
+    dueDate
   }: Record) {
     return {
       title,
@@ -86,7 +88,8 @@ class ResourceService {
       borrower: {
         ...borrower
       },
-      dateBorrowed
+      dateBorrowed,
+      dueDate
     };
   }
 

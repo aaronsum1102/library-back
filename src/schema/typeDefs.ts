@@ -34,6 +34,7 @@ const typeDefs = gql`
     borrowerId: String!
     borrower: Borrower!
     dateBorrowed: String!
+    dueDate: String!
   }
 
   type Resource {
@@ -44,6 +45,7 @@ const typeDefs = gql`
     borrowerId: String
     borrower: Borrower
     dateBorrowed: String
+    dueDate: String
   }
 
   type Borrower {
