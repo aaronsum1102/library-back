@@ -1,152 +1,150 @@
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type InputMaybe<T> = Maybe<T>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 export type AddResourceInput = {
-  title: Scalars['String'];
-  createdDate?: Maybe<Scalars['Float']>;
-  ebook: Scalars['Boolean'];
-  available?: Maybe<Scalars['Boolean']>;
-  borrowerId?: Maybe<Scalars['String']>;
-  borrower?: Maybe<BorrowerInput>;
+  available?: InputMaybe<Scalars['Boolean']['input']>;
+  borrower?: InputMaybe<BorrowerInput>;
+  borrowerId?: InputMaybe<Scalars['String']['input']>;
+  createdDate?: InputMaybe<Scalars['Float']['input']>;
+  ebook: Scalars['Boolean']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type AddUserInput = {
-  email: Scalars['String'];
-  admin: Scalars['Boolean'];
+  admin: Scalars['Boolean']['input'];
+  email: Scalars['String']['input'];
 };
 
 export type BorrowResourceInput = {
-  title: Scalars['String'];
-  createdDate: Scalars['Float'];
-  ebook: Scalars['Boolean'];
-  available: Scalars['Boolean'];
-  borrowerId: Scalars['String'];
+  available: Scalars['Boolean']['input'];
   borrower: BorrowerInput;
+  borrowerId: Scalars['String']['input'];
+  createdDate: Scalars['Float']['input'];
+  ebook: Scalars['Boolean']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type Borrower = {
   __typename?: 'Borrower';
-  name?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']['output']>;
+  phoneNumber?: Maybe<Scalars['String']['output']>;
 };
 
 export type BorrowerInput = {
-  name: Scalars['String'];
-  phoneNumber: Scalars['String'];
+  name: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 };
 
 export type LoanResource = {
   __typename?: 'LoanResource';
-  title: Scalars['String'];
-  createdDate: Scalars['Float'];
-  ebook: Scalars['Boolean'];
-  available: Scalars['Boolean'];
-  borrowerId: Scalars['String'];
+  available: Scalars['Boolean']['output'];
   borrower: Borrower;
-  dateBorrowed: Scalars['String'];
-  dueDate: Scalars['String'];
+  borrowerId: Scalars['String']['output'];
+  createdDate: Scalars['Float']['output'];
+  dateBorrowed: Scalars['String']['output'];
+  dueDate: Scalars['String']['output'];
+  ebook: Scalars['Boolean']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  verifyUser: Scalars['Boolean'];
-  addUser: User;
-  updateUserInfo: User;
   addResource: Resource;
+  addUser: User;
   borrowResource: Resource;
+  removeResource: Scalars['Boolean']['output'];
   returnResource: Resource;
-  removeResource: Scalars['Boolean'];
-};
-
-export type MutationVerifyUserArgs = {
-  email: Scalars['String'];
-};
-
-export type MutationAddUserArgs = {
-  input: AddUserInput;
-};
-
-export type MutationUpdateUserInfoArgs = {
-  input: UpdateUserInput;
+  updateUserInfo: User;
+  verifyUser: Scalars['Boolean']['output'];
 };
 
 export type MutationAddResourceArgs = {
   input: AddResourceInput;
 };
 
-export type MutationBorrowResourceArgs = {
-  input: BorrowResourceInput;
+export type MutationAddUserArgs = {
+  input: AddUserInput;
 };
 
-export type MutationReturnResourceArgs = {
-  input: ReturnResourceInput;
+export type MutationBorrowResourceArgs = {
+  input: BorrowResourceInput;
 };
 
 export type MutationRemoveResourceArgs = {
   input: RemoveResourceInput;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  users: Array<Maybe<User>>;
-  user?: Maybe<User>;
-  resources: Array<Resource>;
-  resourcesByUser: Array<LoanResource>;
+export type MutationReturnResourceArgs = {
+  input: ReturnResourceInput;
 };
 
-export type QueryUserArgs = {
-  email: Scalars['String'];
+export type MutationUpdateUserInfoArgs = {
+  input: UpdateUserInput;
+};
+
+export type MutationVerifyUserArgs = {
+  email: Scalars['String']['input'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  resources: Array<Resource>;
+  resourcesByUser: Array<LoanResource>;
+  user?: Maybe<User>;
+  users: Array<Maybe<User>>;
 };
 
 export type QueryResourcesByUserArgs = {
-  borrowerId: Scalars['String'];
+  borrowerId: Scalars['String']['input'];
+};
+
+export type QueryUserArgs = {
+  email: Scalars['String']['input'];
 };
 
 export type RemoveResourceInput = {
-  title: Scalars['String'];
-  createdDate: Scalars['Float'];
+  createdDate: Scalars['Float']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type Resource = {
   __typename?: 'Resource';
-  title: Scalars['String'];
-  createdDate: Scalars['Float'];
-  ebook: Scalars['Boolean'];
-  available: Scalars['Boolean'];
-  borrowerId?: Maybe<Scalars['String']>;
+  available: Scalars['Boolean']['output'];
   borrower?: Maybe<Borrower>;
-  dateBorrowed?: Maybe<Scalars['String']>;
-  dueDate?: Maybe<Scalars['String']>;
+  borrowerId?: Maybe<Scalars['String']['output']>;
+  createdDate: Scalars['Float']['output'];
+  dateBorrowed?: Maybe<Scalars['String']['output']>;
+  dueDate?: Maybe<Scalars['String']['output']>;
+  ebook: Scalars['Boolean']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type ReturnResourceInput = {
-  title: Scalars['String'];
-  createdDate: Scalars['Float'];
-  ebook: Scalars['Boolean'];
-  available: Scalars['Boolean'];
+  available: Scalars['Boolean']['input'];
+  createdDate: Scalars['Float']['input'];
+  ebook: Scalars['Boolean']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {
-  uid: Scalars['ID'];
-  displayName: Scalars['String'];
-  phoneNumber: Scalars['String'];
+  displayName: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
+  uid: Scalars['ID']['input'];
 };
 
 export type User = {
   __typename?: 'User';
-  uid: Scalars['String'];
-  email: Scalars['String'];
-  displayName?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
-  admin: Scalars['Boolean'];
+  admin: Scalars['Boolean']['output'];
+  displayName?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  phoneNumber?: Maybe<Scalars['String']['output']>;
+  uid: Scalars['String']['output'];
 };
