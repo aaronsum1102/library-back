@@ -14,7 +14,8 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1048.0",
     "@aws-sdk/util-dynamodb": "^3.996.2",
-    "apollo-server-micro": "^3.13.0",
+    "@apollo/server": "^5.5.1",
+    "@as-integrations/next": "^4.1.0",
     "firebase-admin": "^13.10.0",
     "graphql": "^16.14.0",
     "micro": "^10.0.1"
@@ -43,23 +44,26 @@
     "vercel": "^54.1.0"
   },
   "resolutions": {
-    "sha.js": "2.4.12",
-    "ansi-regex": "5.0.1",
     "braces": "3.0.3",
-    "@babel/traverse": "7.23.2",
-    "undici": "6.24.0",
+    "@babel/traverse": "^7.26.10",
+    "undici": "^7.16.0",
     "tar": "7.5.11",
     "smol-toml": "1.6.1",
-    "srvx": "0.11.13",
     "micromatch": "4.0.8",
-    "minimatch": "10.2.5",
-    "cross-spawn": "7.0.5",
+    "minimatch": "^10.2.5",
+    "cross-spawn": "7.0.6",
     "jws": "4.0.1",
     "diff": "4.0.4",
     "@tootallnate/once": "3.0.1",
     "@protobufjs/utf8": "1.1.1",
     "path-to-regexp": "8.4.0",
-    "ajv": "^8.18.0"
+    "ansi-regex": "^6.2.2",
+    "srvx": "0.11.13",
+    "eslint/ajv": "6.15.0",
+    "**/@eslint/eslintrc/ajv": "6.15.0",
+    "**/@vercel/static-config/ajv": "8.20.0",
+    "**/@commitlint/config-validator/ajv": "8.20.0",
+    "**/@commitlint/load/ajv": "8.20.0"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx}": [

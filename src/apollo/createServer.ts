@@ -1,12 +1,10 @@
-import { ApolloServer, Config } from 'apollo-server-micro';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import { ApolloServer, ApolloServerOptions } from '@apollo/server';
+import { VercelRequest } from '@vercel/node';
 
-import { getFirebaseApp, FirebaseApp } from './firebase';
-import { validateToken, Authentication } from './validateToken';
+import { FirebaseApp } from './firebase';
+import { Authentication } from './validateToken';
 
-let server: ApolloServer | null = null;
-const API_PATH = '/api';
+let server: ApolloServer<Context> | null = null;
 
 export interface Context {
   headers: VercelRequest['headers'];
@@ -17,46 +15,17 @@ export interface Context {
 export const createGraphqlServer = async ({
   typeDefs,
   resolvers
-}: Pick<Config, 'typeDefs' | 'resolvers'>): Promise<ApolloServer> => {
+}: Pick<ApolloServerOptions<Context>, 'typeDefs' | 'resolvers'>): Promise<
+  ApolloServer<Context>
+> => {
   if (server) return server;
 
-  server = new ApolloServer({
+  server = new ApolloServer<Context>({
     typeDefs,
-    resolvers,
-    context: {
-      firebaseApp: getFirebaseApp()
-    },
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
+    resolvers
   });
 
   await server.start();
 
   return server;
-};
-
-export const enrichContext = async (
-  server: ApolloServer,
-  request: VercelRequest
-): Promise<void> => {
-  const authentication = await validateToken(request.headers.authorization);
-
-  server.requestOptions = {
-    context: {
-      ...server.requestOptions,
-      headers: request.headers,
-      authentication: authentication
-    }
-  };
-};
-
-export const createGraphqlHandler = (
-  server: ApolloServer,
-  request: VercelRequest,
-  response: VercelResponse
-): void => {
-  const handler = server.createHandler({
-    path: API_PATH
-  });
-
-  handler(request, response);
 };
