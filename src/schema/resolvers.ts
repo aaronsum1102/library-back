@@ -1,5 +1,4 @@
-import { Config, AuthenticationError, UserInputError } from 'apollo-server-micro';
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 
 import { Context } from '../apollo';
 import { UserService, ResourceService } from '../service';
@@ -35,7 +34,9 @@ const privateResolver = <TResult, TArgs>(
   resolver: ApiMethod<TResult, TArgs>
 ): Promise<TResult> | TResult => {
   if (!context.authentication.isAuthenticated) {
-    throw new AuthenticationError(context.authentication.message);
+    throw new GraphQLError(context.authentication.message, {
+      extensions: { code: 'UNAUTHENTICATED' }
+    });
   }
 
   return resolver(parent, args, context, info);
@@ -93,7 +94,11 @@ const borrowResource: ApiMethod<Resource, MutationBorrowResourceArgs> = async (_
   const service = ResourceService.getInstance();
   const resource = await service.getResource(args.input.title, args.input.createdDate);
 
-  if (!resource.available) throw new UserInputError('RESOURCE_UNAVAILABLE');
+  if (!resource.available) {
+    throw new GraphQLError('RESOURCE_UNAVAILABLE', {
+      extensions: { code: 'BAD_USER_INPUT' }
+    });
+  }
 
   const LOAN_INTERVAL = 10;
   const dateBorrowed = new Date();
@@ -123,7 +128,7 @@ const removeResource: ApiMethod<boolean, MutationRemoveResourceArgs> = async (__
   return result;
 };
 
-const resolvers: Config['resolvers'] = {
+const resolvers = {
   Query: {
     users: async (parent: unknown, args: unknown, context: Context, info: GraphQLResolveInfo) =>
       privateResolver(parent, args, context, info, users),
