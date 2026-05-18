@@ -1,4 +1,4 @@
-import ResourceService from './src/service/ResourceService';
+import ResourceService from './src/service/ResourceService.js';
 
 const service = ResourceService.getInstance();
 

@@ -1,8 +1,8 @@
 import { ApolloServer, ApolloServerOptions } from '@apollo/server';
 import { VercelRequest } from '@vercel/node';
 
-import { FirebaseApp } from './firebase';
-import { Authentication } from './validateToken';
+import { FirebaseApp } from './firebase.js';
+import { Authentication } from './validateToken.js';
 
 let server: ApolloServer<Context> | null = null;
 

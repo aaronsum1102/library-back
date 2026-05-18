@@ -1,6 +1,6 @@
-import { auth } from 'firebase-admin';
+import admin from 'firebase-admin';
 
-import { getFirebaseApp } from './firebase';
+import { getFirebaseApp } from './firebase.js';
 
 export interface Authentication {
   isAuthenticated: boolean;
@@ -19,7 +19,7 @@ export const validateToken = async (token?: string): Promise<Authentication> => 
     const app = getFirebaseApp();
     if (tokenType === 'Bearer' && idToken) {
       try {
-        await auth(app).verifyIdToken(idToken);
+        await admin.auth(app).verifyIdToken(idToken);
 
         authentication = Object.assign(authentication, {
           message: 'Token valid',
