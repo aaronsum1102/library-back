@@ -1,14 +1,14 @@
-import { auth, app } from 'firebase-admin';
-import { AddUserInput, UpdateUserInput, User } from '../generated/graphql';
+import admin from 'firebase-admin';
+import { AddUserInput, UpdateUserInput, User } from '../generated/graphql.js';
 
 class UserService {
-  private auth: auth.Auth;
+  private auth: admin.auth.Auth;
 
-  constructor(app: app.App) {
-    this.auth = auth(app);
+  constructor(app: admin.app.App) {
+    this.auth = admin.auth(app);
   }
 
-  private mapUserRespone(data: auth.UserRecord): User {
+  private mapUserRespone(data: admin.auth.UserRecord): User {
     const { uid, email, displayName, phoneNumber, customClaims } = data;
 
     const admin =

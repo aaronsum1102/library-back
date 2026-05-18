@@ -1,7 +1,7 @@
 import { GraphQLError, GraphQLResolveInfo } from 'graphql';
 
-import { Context } from '../apollo';
-import { UserService, ResourceService } from '../service';
+import { Context } from '../apollo/index.js';
+import { UserService, ResourceService } from '../service/index.js';
 import {
   User,
   QueryUserArgs,
@@ -15,7 +15,7 @@ import {
   MutationBorrowResourceArgs,
   MutationReturnResourceArgs,
   MutationRemoveResourceArgs
-} from '../generated/graphql';
+} from '../generated/graphql.js';
 
 interface ApiMethod<TResult, TArgs> {
   (

@@ -1,17 +1,19 @@
 import { VercelApiHandler } from '@vercel/node';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 
-import { typeDefs, resolvers } from '../src/schema';
+import { typeDefs, resolvers } from '../src/schema/index.js';
 import {
   createGraphqlServer,
   defineCORSHeaders,
   getFirebaseApp,
   validateToken
-} from '../src/apollo';
+} from '../src/apollo/index.js';
 
 const allowedOrigins = ['library-front.vercel.app', 'library-front-dev.vercel.app'];
 
-process.env.IS_LOCAL && allowedOrigins.push('localhost');
+if (process.env.IS_LOCAL) {
+  allowedOrigins.push('localhost');
+}
 
 const handler: VercelApiHandler = async (request, response) => {
   const headers = defineCORSHeaders(request.headers.origin, { origin: allowedOrigins });

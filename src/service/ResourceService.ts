@@ -1,6 +1,6 @@
-import { DynamoDBRepository } from '../repository/DynamoDBRepository';
+import { DynamoDBRepository } from '../repository/DynamoDBRepository.js';
 import { QueryCommandInput } from '@aws-sdk/client-dynamodb';
-import { RemoveResourceInput, LoanResource } from '../generated/graphql';
+import { RemoveResourceInput, LoanResource } from '../generated/graphql.js';
 
 interface Record extends ResourceData {
   pk: string;
