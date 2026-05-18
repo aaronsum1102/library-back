@@ -19,9 +19,12 @@ import {
 } from '../generated/graphql';
 
 interface ApiMethod<TResult, TArgs> {
-  (parent: unknown, args: TArgs, context: Context, info: GraphQLResolveInfo):
-    | Promise<TResult>
-    | TResult;
+  (
+    parent: unknown,
+    args: TArgs,
+    context: Context,
+    info: GraphQLResolveInfo
+  ): Promise<TResult> | TResult;
 }
 
 const privateResolver = <TResult, TArgs>(
