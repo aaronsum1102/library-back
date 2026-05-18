@@ -48,28 +48,20 @@ export class DynamoDBRepository {
     };
 
     const items: T[] = [];
-    try {
-      const { Items } = await this.client.scan(scanParams);
+    const { Items } = await this.client.scan(scanParams);
 
-      items.push(...(Items ?? []).map((item) => <T>unmarshall(item)));
+    items.push(...(Items ?? []).map((item) => <T>unmarshall(item)));
 
-      return items;
-    } catch (error) {
-      throw error;
-    }
+    return items;
   }
 
   async query<T>(params: QueryCommandInput): Promise<T[] | null> {
-    try {
-      const items = [];
-      const { Items } = await this.client.query(params);
+    const items = [];
+    const { Items } = await this.client.query(params);
 
-      items.push(...(Items ?? []).map((item) => <T>unmarshall(item)));
+    items.push(...(Items ?? []).map((item) => <T>unmarshall(item)));
 
-      return items;
-    } catch (error) {
-      throw error;
-    }
+    return items;
   }
 
   async get<T>(pk: string | number, sk?: string | number): Promise<T | null> {
@@ -78,14 +70,10 @@ export class DynamoDBRepository {
       Key: marshall(this.getItemKeys(pk, sk))
     };
 
-    try {
-      const { Item } = await this.client.getItem(getParams);
+    const { Item } = await this.client.getItem(getParams);
 
-      if (!Item) return null;
-      return <T>unmarshall(Item);
-    } catch (error) {
-      throw error;
-    }
+    if (!Item) return null;
+    return <T>unmarshall(Item);
   }
 
   async put<T>(item: T): Promise<T> {
@@ -94,13 +82,9 @@ export class DynamoDBRepository {
       Item: marshall(item, { removeUndefinedValues: true })
     };
 
-    try {
-      await this.client.putItem(putParams);
+    await this.client.putItem(putParams);
 
-      return item;
-    } catch (error) {
-      throw error;
-    }
+    return item;
   }
 
   async delete(pk: string | number, sk: string | number): Promise<void> {
@@ -109,10 +93,6 @@ export class DynamoDBRepository {
       Key: marshall(this.getItemKeys(pk, sk))
     };
 
-    try {
-      await this.client.deleteItem(deleteParams);
-    } catch (error) {
-      throw error;
-    }
+    await this.client.deleteItem(deleteParams);
   }
 }
