@@ -57,7 +57,6 @@
     "@tootallnate/once": "3.0.1",
     "@protobufjs/utf8": "1.1.1",
     "path-to-regexp": "8.4.0",
-    "ajv": "^8.18.0",
     "ansi-regex": "^6.2.2",
     "srvx": "0.11.13"
   },
