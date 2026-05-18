@@ -58,7 +58,8 @@
     "diff": "4.0.4",
     "@tootallnate/once": "3.0.1",
     "@protobufjs/utf8": "1.1.1",
-    "path-to-regexp": "8.4.0"
+    "path-to-regexp": "8.4.0",
+    "ajv": "^8.18.0"
   },
   "lint-staged": {
     "**/*.{js,mjs,ts,tsx}": [
