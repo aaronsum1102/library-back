@@ -16,7 +16,7 @@
     "@aws-sdk/util-dynamodb": "^3.24.0",
     "apollo-server-micro": "^3.0.2",
     "firebase-admin": "^9.11.0",
-    "graphql": "^15.5.1",
+    "graphql": "^15.10.2",
     "micro": "^9.3.4"
   },
   "devDependencies": {
